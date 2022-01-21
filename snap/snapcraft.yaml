@@ -87,9 +87,6 @@ parts:
     - libpcre2-dev
     - portaudio19-dev
     plugin: autotools
-    configflags:
-      - --prefix=/usr
-      - --disable-static
     prime:
     - usr/bin
     - usr/include
