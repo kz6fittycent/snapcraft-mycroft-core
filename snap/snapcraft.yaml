@@ -86,10 +86,10 @@ parts:
     build-packages:
     - libpcre2-dev
     - portaudio19-dev
-    configflags:
-    - --prefix=/usr
-    - --disable-static
     plugin: autotools
+    configflags:
+      - --prefix=/usr
+      - --disable-static
     prime:
     - usr/bin
     - usr/include
