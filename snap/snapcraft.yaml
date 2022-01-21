@@ -116,7 +116,7 @@ parts:
       
     override-pull: |
       # Try to fetch mycroft-core
-      mkdir -p $SNAPCRAFT_PART_INSTALL/project/mycroft-core
+      mkdir -p /root/project/mycroft-core
       git clone https://github.com/mycroftai/mycroft-core /root/project/mycroft-core 2> /dev/null || true
       snapcraftctl pull
       snapcraftctl set-version "$(git describe --tags | sed -e ''s|release/v||'')"
