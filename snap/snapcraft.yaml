@@ -119,8 +119,10 @@ parts:
       mkdir -p /root/snapcraft-mycroft-core/mycroft-core
       mkdir -p /root/project/mycroft-core
       git clone https://github.com/mycroftai/mycroft-core /root/project/mycroft-core 2> /dev/null || true
-      snapcraftctl pull
-      snapcraftctl set-version "$(git describe --tags | sed -e ''s|release/v||'')"
+      
+      snapcraftctl pull     
+      snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
+      
       sed -i ''s|/var/log/mycroft|$SNAP_USER_COMMON/logs|g'' start-mycroft.sh
       cat > scripts/prepare-msm.sh <<EOF
       #!/bin/sh
