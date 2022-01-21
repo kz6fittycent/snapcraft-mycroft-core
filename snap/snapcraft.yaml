@@ -45,7 +45,7 @@ apps:
       MPG123_MODDIR: $SNAP/usr/lib/x86_64-linux-gnu/mpg123
     command-chain:
       - bin/homeishome-launch  
-    command: bin/mycroft-launch
+    command: bin/ncurses-launch $SNAP/bin/mycroft-launch
     desktop: usr/share/applications/mycroft.desktop
     extensions:
       - gnome-3-38
@@ -64,6 +64,13 @@ apps:
     - alsa
     
 parts:
+  ncurses-launch:
+    source: https://github.com/Lin-Buo-Ren/ncurses-launch.git
+    source-tag: v1.0.0
+    stage-packages:
+      - ncurses-base
+    plugin: dump
+
   desktop-file:
     build-packages: []
     organize:
@@ -101,13 +108,15 @@ parts:
     - snapcraft-preload
     build-packages:
     - rsync
-    override-build: 'mkdir -p $SNAPCRAFT_PART_INSTALL/mycroft-source
-      rsync -a --exclude .git ./ $SNAPCRAFT_PART_INSTALL/mycroft-source/
+    override-build: |
+      mkdir -p $SNAPCRAFT_PART_INSTALL/mycroft-source;
+      rsync -a --exclude .git ./ $SNAPCRAFT_PART_INSTALL/mycroft-source/;
       # Remove the mycroft-core folder
       rm -rf /root/project/mycroft-core
-      '
-    override-pull: '# Try to fetch mycroft-core
-    git clone https://github.com/mycroftai/mycroft-core /root/project/mycroft-core 2> /dev/null || true
+      
+    override-pull: |
+      # Try to fetch mycroft-core
+      git clone https://github.com/mycroftai/mycroft-core /root/project/mycroft-core 2> /dev/null || true
       snapcraftctl pull
       snapcraftctl set-version "$(git describe --tags | sed -e ''s|release/v||'')"
       sed -i ''s|/var/log/mycroft|$SNAP_USER_COMMON/logs|g'' start-mycroft.sh
@@ -117,19 +126,22 @@ parts:
       EOF
       sed -E -i ''s|(python3 -m \$\{_module\} \$_params)|$SNAP/bin/snapcraft-preload
       \1|g'' start-mycroft.sh
-      '
+      
     plugin: nil
     source: ./mycroft-core
     source-type: local
     stage-packages: []
   mycroft-conf:
     build-packages: []
-    override-build: 'install -m644 -D -t $SNAPCRAFT_PART_INSTALL/etc/mycroft mycroft.conf
-      '
-    override-pull: "cat  > mycroft.conf <<EOF\n{\n    \"enclosure\": {\n        \"\
+    override-build: |
+      install -m644 -D -t $SNAPCRAFT_PART_INSTALL/etc/mycroft mycroft.conf
+      
+    override-pull: |
+      cat  > mycroft.conf <<EOF\n{\n    \"enclosure\": {\n        \"\
       update\": \"false\"\n    },\n    \"data_dir\": \"~/../common/mycroft-data\"\
       ,\n    \"log_dir\": \"~/../common/logs\"\
-      ,\n    \"play_ogg_cmdline\": \"vlc --intf dummy --play-and-exit %1\"}\nEOF\n"
+      ,\n    \"play_ogg_cmdline\": \"vlc --intf dummy --play-and-exit %1\"}\nEOF\n
+      
     plugin: nil
     stage-packages:
     - libfann-dev
@@ -151,10 +163,13 @@ parts:
     organize:
       usr/bin/mpg123.bin: usr/bin/mpg123
       usr/lib/*/*fann*.so*: usr/lib/
-    override-build: "snapcraftctl build\nln -sf aclocal-1.15 $SNAPCRAFT_PART_INSTALL/usr/bin/aclocal\n\
-      ln -sf automake-1.15 $SNAPCRAFT_PART_INSTALL/usr/bin/automake\nfor sofile in\
-      \ libc.so libm.so libpthread.so; do\n    sed -Ei 's|(/usr/lib/$SNAPCRAFT_ARCH_TRIPLET)|/snap/mycroft/current\\\
-      1|g' $SNAPCRAFT_PART_INSTALL/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/$sofile\ndone\n"
+    override-build: |
+      snapcraftctl build\nln -sf aclocal-1.15 $SNAPCRAFT_PART_INSTALL/usr/bin/aclocal\n\ 
+      ln -sf automake-1.15 $SNAPCRAFT_PART_INSTALL/usr/bin/automake\n 
+      for sofile in\\ libc.so libm.so libpthread.so; do\n 
+      sed -Ei 's|(/usr/lib/$SNAPCRAFT_ARCH_TRIPLET)|/snap/mycroft/current\\\
+      1|g' $SNAPCRAFT_PART_INSTALL/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/$sofile\ndone\n
+      
     plugin: nil
     stage:
     - -usr/bin/sudo
