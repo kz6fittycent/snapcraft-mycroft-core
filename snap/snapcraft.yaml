@@ -16,7 +16,7 @@ apps:
     command: bin/mycroft-launch
     desktop: usr/share/applications/mycroft.desktop
     extensions:
-    - gnome-3-28
+      - gnome-3-38
     plugs:
     - audio-playback
     - audio-record
@@ -252,21 +252,4 @@ parts:
     stage-packages:
     - try:
       - lib32stdc++6
-plugs:
-  gnome-3-28-1804:
-    default-provider: gnome-3-28-1804:gnome-3-28-1804
-    interface: content
-    target: $SNAP/gnome-platform
-  gtk-3-themes:
-    default-provider: gtk-common-themes:gtk-3-themes
-    interface: content
-    target: $SNAP/data-dir/themes
-  icon-themes:
-    default-provider: gtk-common-themes:icon-themes
-    interface: content
-    target: $SNAP/data-dir/icons
-  sound-themes:
-    default-provider: gtk-common-themes:sounds-themes
-    interface: content
-    target: $SNAP/data-dir/sounds
 summary: Your AI personal assistant!
