@@ -123,13 +123,13 @@ parts:
       #snapcraftctl pull     
       #snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
       
-      sed -i 's|/var/log/mycroft|$SNAP_USER_COMMON/logs|g' start-mycroft.sh
+      sed -i 's|/var/log/mycroft|$SNAP_USER_COMMON/logs|g' start-mycroft
       cat > scripts/prepare-msm.sh <<EOF
       #!/bin/sh
       true
       EOF
       sed -E -i 's|(python3 -m \$\{_module\} \$_params)|$SNAP/bin/snapcraft-preload
-      \1|g' start-mycroft.sh
+      \1|g' start-mycroft
       
     plugin: nil
     source: ./mycroft-core
