@@ -29,7 +29,7 @@ apps:
     - unity7
     - wayland
     - x11
-base: core18
+base: core20
 confinement: strict
 description: 'Mycroft is a free and open-source intelligent personal assistant and
   knowledge
