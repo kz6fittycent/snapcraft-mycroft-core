@@ -63,12 +63,7 @@ apps:
     - x11
     - alsa
     
-    build-packages:
-      - libasound2-dev
-      - libpcre2-dev
-
 parts:
-
   desktop-file:
     build-packages: []
     organize:
@@ -79,7 +74,6 @@ parts:
     stage-packages: []
     
   mimic:
-    mimic:
     after:
       - snapcraft-preload
     build-packages:
