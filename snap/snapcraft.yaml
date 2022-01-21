@@ -1,6 +1,6 @@
 name: mycroft
-adopt-info: mycroft
-
+#adopt-info: mycroft
+version: 'git'
 summary: Your AI personal assistant!
 description: |
 
