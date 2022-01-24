@@ -81,8 +81,6 @@ parts:
     stage-packages: []
     
   mimic:
-    after:
-      - snapcraft-preload
     build-packages:
       - libpcre2-dev
       - portaudio19-dev
@@ -126,8 +124,6 @@ parts:
       #!/bin/sh
       true
       EOF
-      sed -E -i 's|(python3 -m \$\{_module\} \$_params)|$SNAP/bin/snapcraft-preload
-      \1|g' start-mycroft
       
     plugin: nil
     source: ./mycroft-core
