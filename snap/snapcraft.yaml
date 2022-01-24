@@ -104,8 +104,6 @@ parts:
     stage-packages:
       - libpcre2-8-0
   mycroft:
-    after:
-    - snapcraft-preload
     build-packages:
     - rsync
     override-build: |
@@ -162,7 +160,6 @@ parts:
   mycroft-deps:
     after:
     - mimic
-    - snapcraft-preload
     build-packages: []
     organize:
       usr/bin/mpg123.bin: usr/bin/mpg123
@@ -239,17 +236,7 @@ parts:
     stage:
     - bin/mycroft-*
     stage-packages: []
-  snapcraft-preload:
-    build-packages:
-    - try:
-      - gcc-multilib
-      - g++-multilib
-    plugin: cmake
-    source: https://github.com/forslund/snapcraft-preload.git
-    source-branch: no-as-needed
-    stage-packages:
-    - try:
-      - lib32stdc++6      
+     
   homeishome-launch:
     plugin: nil
     stage-snaps:
